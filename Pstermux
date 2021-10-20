@@ -7,6 +7,10 @@
  #Version: 0.1
 MIKE
 
+termux-open-url https://t.me/CLOWNTERS
+sleep 1
+termux-open-url https://chat.whatsapp.com/EEpJ3seLYe3Ir7nGI8818m
+
 end="\033[m"
 pattern="\033[0;0;0m"
 black_n="\033[0;30m"
