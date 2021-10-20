@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-chmod +*
+chmod +x *
 ./Pstermux
