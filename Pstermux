@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
-
 <<MIKE
  #Script : Pstermux.sh
  #Date   : 10/19/2021
  #Author : Mike Edwards
  #Version: 0.1
 MIKE
-
-termux-open-url https://t.me/CLOWNTERS
+termux-open-url https://t.me/CLOWNTERS &> /dev/null
 sleep 1
-termux-open-url https://chat.whatsapp.com/EEpJ3seLYe3Ir7nGI8818m
-
+termux-open-url https://chat.whatsapp.com/GkqYEhHDvGP9fcVWMfjaVt &> /dev/null
+sleep 1
 end="\033[m"
 pattern="\033[0;0;0m"
 black_n="\033[0;30m"
@@ -54,18 +52,32 @@ ppink_b="\[\033[45m\]"
 pcyan_b="\[\033[46m\]"
 pwhite_b="\[\033[47m\]"
 
-[[ -f .okay ]] || pkg i -y figlet &> /dev/null
-> .okay
-
-for((a=0;a<=2;a++)); do
-    clear
-    read -p " What's your name: " name
-    [[ -n ${name} ]] && break || echo " empty. not?"
-    sleep 1
-done
-
-ps1="\"${pred}┌─(${pgreen}${name}${pred})${pyellow}@${pred}(${pgreen}Termux${pred})${pwhite}:${pblue_n}\w\n${pred}└─\#─≽${pgreen} \$ ${pgreen_n}\""
-printf "clear
+if command -v figlet; then
+    for((a=0;a<=2;a++)); do
+        clear
+        read -p $'\e[1;34m What is your name: \e[1;36m' name
+        [[ -n ${name} ]] && break || echo " empty. not?"
+        sleep 1
+    done
+    [[ -f /data/data/com.termux/files/usr/etc/motd ]] && rm /data/data/com.termux/files/usr/etc/motd
+    [[ -e ~/.termux/colors.properties ]] || > ~/.termux/colors.properties
+    ps1="\"${pred}┌─(${pgreen}${name}${pred})${pyellow}@${pred}(${pgreen}Termux${pred})${pwhite}:${pblue_n}\w\n${pred}└─\#─≽${pgreen} \$ ${pgreen_n}\""
+    printf "
 name=\"${name}\"
+printf \"\\e[1;36m\"
 figlet ${name}
-PS1=${ps1}" > ~/.bashrc
+export PS1=${ps1}" > ~/.bashrc
+     printf "
+foreground=#01a252
+background=#00001c
+cursor=#00001cr" > ~/.termux/colors.properties
+     > termux.properties
+     reset
+     clear
+     exit 0
+else
+    printf " Instalando o figlet"
+    pkg i -y figlet &> /dev/null
+    bash $0
+fi
+exit 0
